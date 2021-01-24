@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -ex
+
 if [ "$(id -u)" != "0" ]; then
    echo "This script must be run as superuser"
    exit 15
