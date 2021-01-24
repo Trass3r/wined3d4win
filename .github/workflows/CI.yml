@@ -12,7 +12,7 @@ jobs:
     - uses: Trass3r/setup-cpp@master
     - name: build
       run: |
-        bash "32 bit/buildd3d_all.sh"
+        sudo bash "32 bit/buildd3d_all.sh"
     - uses: actions/upload-artifact@v2
       with:
         name: staging
