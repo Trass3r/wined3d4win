@@ -74,7 +74,7 @@ then
 	echo Tools configure failed with error $?
 	exit 3
 fi
-make __tooldeps__
+make -j4 __tooldeps__
 if [ $? -ne 0 ]
 then
 	echo Tools make failed with error $?
@@ -87,7 +87,7 @@ then
 	echo Wine configure failed with error $?
 	exit 5
 fi
-make
+make -j4 dlls/ddraw dlls/d3d8 dlls/d3d9 dlls/d3d10 dlls/d3d10core dlls/d3d11 dlls/dxgi dlls/d3d10_1
 if [ $? -ne 0 ]
 then
 	echo Wine make failed with error $?
@@ -122,7 +122,7 @@ then
 	echo Tools configure failed with error $?
 	exit 8
 fi
-make __tooldeps__
+make -j4 __tooldeps__
 if [ $? -ne 0 ]
 then
 	echo Tools make failed with error $?
@@ -135,7 +135,7 @@ then
 	echo Wine configure failed with error $?
 	exit 10
 fi
-make
+make -j4 dlls/ddraw dlls/d3d8 dlls/d3d9 dlls/d3d10 dlls/d3d10core dlls/d3d11 dlls/dxgi dlls/d3d10_1
 if [ $? -ne 0 ]
 then
 	echo Wine make failed with error $?
