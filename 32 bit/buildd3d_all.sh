@@ -26,7 +26,9 @@ then
 fi
 rm -f test_wined3d
 echo Downloading system updates and required dependencies...
-apt-get update -qq -y && apt-get dist-upgrade -qq -y && apt-get build-dep wine -qq -y && apt-get install mingw-w64 git -qq -y && apt-get autoremove -qq -y && apt-get clean -qq -y
+dpkg --add-architecture i386
+#ia32-libs libc6-dev-i386 lib32z1-dev lib32bz2-dev
+apt-get update -qq -y && apt-get dist-upgrade -qq -y && apt-get build-dep -a i386 wine -qq -y && apt-get install mingw-w64 git -qq -y && apt-get autoremove -qq -y && apt-get clean -qq -y
 if [ $? -ne 0 ]
 then
 	echo Download failed with error $?
