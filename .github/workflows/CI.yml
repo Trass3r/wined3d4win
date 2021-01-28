@@ -14,11 +14,13 @@ jobs:
       run: |
         sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
         sudo bash "64 bit/buildd3d_all.sh"
-    - uses: actions/upload-artifact@v2
-      with:
-        name: staging
-        path: wined3d-staging
+      continue-on-error: true
     - uses: actions/upload-artifact@v2
       with:
         name: main
         path: wined3d
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: staging
+        path: wined3d-staging
