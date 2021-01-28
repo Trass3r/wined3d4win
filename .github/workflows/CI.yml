@@ -13,6 +13,10 @@ jobs:
     - name: build
       run: |
         sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+        sudo apt update && sudo apt install -y lxc
+        sudo lxc-create -t ubuntu -n my32bitbox -- --bindhome $LOGNAME -a i386
+        sudo cp -R /etc/apt /var/lib/lxc/my32bitbox/rootfs/etc
+        sudo lxc-start -n my32bitbox
         sudo bash "32 bit/buildd3d_all.sh"
       continue-on-error: true
     - uses: actions/upload-artifact@v2
