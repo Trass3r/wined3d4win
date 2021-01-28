@@ -17,11 +17,6 @@ i*86)
     x86=0
     ;;
 esac
-if [ $x86 -ne 1 ]
-then
-	echo "This script requries an x86 system (i386, i486, i586, i686)"
-	exit 13
-fi
 
 touch test_wined3d
 if [ $? -ne 0 ]
@@ -75,7 +70,7 @@ then
 	exit 4
 fi
 cd ../wine-win32
-../$p/configure --without-x --without-freetype --host=i686-w64-mingw32 CFLAGS="-O2 -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN" --with-wine-tools=../wine-tools/ LDFLAGS=" -static-libgcc"
+../$p/configure --without-x --without-freetype --host=i686-w64-mingw32 CFLAGS="-O3 -fno-omit-frame-pointer -g -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN" --with-wine-tools=../wine-tools/ LDFLAGS=" -static-libgcc"
 if [ $? -ne 0 ]
 then
 	echo Wine configure failed with error $?
@@ -124,7 +119,7 @@ then
 	exit 9
 fi
 cd ../wine-win32
-../$p2/configure --without-x --without-freetype --host=i686-w64-mingw32 CFLAGS="-O2 -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN" --with-wine-tools=../wine-tools/ LDFLAGS=" -static-libgcc"
+../$p2/configure --without-x --without-freetype --host=i686-w64-mingw32 CFLAGS="-O3 -fno-omit-frame-pointer -g -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN" --with-wine-tools=../wine-tools/ LDFLAGS=" -static-libgcc"
 if [ $? -ne 0 ]
 then
 	echo Wine configure failed with error $?
