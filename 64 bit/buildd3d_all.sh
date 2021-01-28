@@ -87,7 +87,9 @@ then
 	echo Wine configure failed with error $?
 	exit 5
 fi
-make -j4 dlls/ddraw dlls/d3d8 dlls/d3d9 dlls/d3d10 dlls/d3d10core dlls/d3d11 dlls/dxgi dlls/d3d10_1
+make -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort -u
+make -j4
+#make -j4 dlls/ddraw dlls/d3d8 dlls/d3d9 dlls/d3d10 dlls/d3d10core dlls/d3d11 dlls/dxgi dlls/d3d10_1
 if [ $? -ne 0 ]
 then
 	echo Wine make failed with error $?
@@ -135,7 +137,8 @@ then
 	echo Wine configure failed with error $?
 	exit 10
 fi
-make -j4 dlls/ddraw dlls/d3d8 dlls/d3d9 dlls/d3d10 dlls/d3d10core dlls/d3d11 dlls/dxgi dlls/d3d10_1
+#make -j4 dlls/ddraw dlls/d3d8 dlls/d3d9 dlls/d3d10 dlls/d3d10core dlls/d3d11 dlls/dxgi dlls/d3d10_1
+make -j4
 if [ $? -ne 0 ]
 then
 	echo Wine make failed with error $?
