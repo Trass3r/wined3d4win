@@ -50,7 +50,7 @@ mkdir wine-tools wine-win64
 if [ -z ${1} ] 
 then
 	echo Downloading wine...
-	git clone git://source.winehq.org/git/wine.git ./wine-git
+	git clone --depth=1000 git://source.winehq.org/git/wine.git ./wine-git
 	if [ $? -ne 0 ]
 	then
 		echo Download failed with error $?
@@ -61,10 +61,11 @@ else
 	echo Building from $1
 	p=$1
 fi
-p2=$(realpath --relative-to=. $p)"-copy/"
-mkdir $p2
-rm -rf $p2"/"*
-cp -rf $p"/"* $p2
+p2=$p
+#p2=$(realpath --relative-to=. $p)"-copy/"
+#mkdir -p $p2
+#rm -rf $p2"/"*
+#cp -rf $p"/"* $p2
 echo Building...
 unset CC
 cd wine-tools
@@ -81,42 +82,44 @@ then
 	exit 4
 fi
 cd ../wine-win64
-../$p/configure -h
-../$p/configure --without-x --enable-win64 --without-freetype --host=x86_64-w64-mingw32 CFLAGS="-O3 -fno-omit-frame-pointer -g -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN" --with-wine-tools=../wine-tools/ LDFLAGS=" -static-libgcc"
+../$p/configure --without-x --enable-win64 --without-freetype --without-vkd3d --host=x86_64-w64-mingw32 CFLAGS="-O3 -fno-omit-frame-pointer -g -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN" --with-wine-tools=../wine-tools/ LDFLAGS=" -static-libgcc"
 if [ $? -ne 0 ]
 then
 	echo Wine configure failed with error $?
 	exit 5
 fi
-make -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort -u
-make -j4
+#make -j4 $(echo dlls/ddraw* dlls/d3d* dlls/dxgi/all | sed 's# #/all #g')
+make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
 #make -j4 dlls/ddraw dlls/d3d8 dlls/d3d9 dlls/d3d10 dlls/d3d10core dlls/d3d11 dlls/dxgi dlls/d3d10_1
 if [ $? -ne 0 ]
 then
 	echo Wine make failed with error $?
 	exit 6
 fi
-mkdir ../wined3d
-cp dlls/wined3d/wined3d.dll dlls/ddraw/ddraw.dll dlls/d3d8/d3d8.dll dlls/d3d9/d3d9.dll dlls/d3d10/d3d10.dll dlls/d3d10core/d3d10core.dll dlls/d3d11/d3d11.dll dlls/dxgi/dxgi.dll dlls/d3d10_1/d3d10_1.dll ../wined3d
+mkdir -p ../wined3d
+cp -v dlls/*/*.dll ../wined3d
 cd ..
 echo Downloading wine-staging...
-git clone https://github.com/wine-staging/wine-staging.git ./wine-staging
+git clone --depth=1 https://github.com/wine-staging/wine-staging.git ./wine-staging
 if [ $? -ne 0 ]
 then
 	echo Download failed with error $?
 	exit 7
 fi
 echo Attempting to apply wine-staging...
+cd $p
+git checkout $(../wine-staging/patches/patchinstall.sh --upstream-commit)
+cd ..
 cd wine-staging
-rm -rf patches/*CSMT*
-sed 's/exit 1//g' patches/patchinstall.sh > patches/patchinstall1.sh
-chmod 775 patches/patchinstall1.sh
-./patches/patchinstall1.sh DESTDIR="../$p2/" --all
+#rm -rf patches/*CSMT*
+#sed 's/exit 1//g' patches/patchinstall.sh > patches/patchinstall1.sh
+chmod 775 patches/patchinstall.sh
+./patches/patchinstall.sh DESTDIR="../$p2/" --all
 echo Attempting Typeless Texture Hack...
 cd ..
-uudecode ${0}
+uudecode "${0}"
 cd $p2
-patch -p0 < ../textureHack.patch
+#patch -p0 < ../textureHack.patch
 echo Building...
 cd ../wine-tools
 ../$p2/configure --without-x --enable-win64
@@ -139,14 +142,14 @@ then
 	exit 10
 fi
 #make -j4 dlls/ddraw dlls/d3d8 dlls/d3d9 dlls/d3d10 dlls/d3d10core dlls/d3d11 dlls/dxgi dlls/d3d10_1
-make -j4
+make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
 if [ $? -ne 0 ]
 then
 	echo Wine make failed with error $?
 	exit 11
 fi
-mkdir ../wined3d-staging
-cp dlls/wined3d/wined3d.dll dlls/ddraw/ddraw.dll dlls/d3d8/d3d8.dll dlls/d3d9/d3d9.dll dlls/d3d10/d3d10.dll dlls/d3d10core/d3d10core.dll dlls/d3d11/d3d11.dll dlls/dxgi/dxgi.dll dlls/d3d10_1/d3d10_1.dll ../wined3d-staging
+mkdir -p ../wined3d-staging
+cp -v dlls/*/*.dll ../wined3d-staging
 cd ..
 echo Cleaning up...
 rm -rf wine-tools wine-win64 wine-staging wine-git $p2 textureHack.patch
