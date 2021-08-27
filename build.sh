@@ -4,10 +4,10 @@ set -eux
 export CC="ccache gcc" CXX="ccache g++"
 export CROSSCC="ccache x86_64-w64-mingw32-gcc";
 export CROSSCXX="ccache x86_64-w64-mingw32-g++";
-export CFLAGS="-O3 -fno-omit-frame-pointer -g -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN"
+export CFLAGS="-O3"
 export CXXFLAGS="${CFLAGS}"
 export LDFLAGS="-Wl,-O1,--sort-common,--as-needed -static-libgcc"
-export CROSSCFLAGS="${CFLAGS}"
+export CROSSCFLAGS="${CFLAGS} -fno-omit-frame-pointer -g -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN"
 export CROSSLDFLAGS="${LDFLAGS}"
 
 rm -rf wine-tools wine-win64 wine-src wine-staging
@@ -27,6 +27,7 @@ chmod 775 patches/patchinstall.sh
 cd ..
 fi
 
+ccache -z
 cd wine-tools
 ../wine-src/configure --without-x --enable-win64
 make -j4 __tooldeps__
@@ -34,5 +35,6 @@ cd ../wine-win64
 ../wine-src/configure --without-x --enable-win64 --without-freetype --without-vkd3d --host=x86_64-w64-mingw32 --with-wine-tools=../wine-tools/
 make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
 make -j4 -k $(echo dlls/ddraw* dlls/d3d* dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
+ccache -s
 mkdir -p ../$outdir
 cp -v dlls/*/*.dll ../$outdir
