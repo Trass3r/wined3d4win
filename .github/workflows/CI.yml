@@ -6,7 +6,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        mode: ["", "--staging"]
     steps:
     - uses: actions/checkout@v2
     - uses: Trass3r/setup-cpp@master
@@ -18,7 +20,7 @@ jobs:
         set -eux
         chmod +x build.sh
         docker build -t wine-build .
-        docker run --rm -v `pwd`:/workspace wine-build --staging
+        docker run --rm -v `pwd`:/workspace wine-build ${{ matrix.mode }}
       continue-on-error: true
     - uses: actions/upload-artifact@v2
       with:
