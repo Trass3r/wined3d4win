@@ -10,10 +10,13 @@ export LDFLAGS="-static-libgcc"
 export CROSSCFLAGS="${CFLAGS} -fno-omit-frame-pointer -g -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN"
 export CROSSLDFLAGS="${LDFLAGS} -L`pwd`"
 
-rm -rf wine-tools wine-win64 wine-src wine-staging
-mkdir wine-tools wine-win64
+rm -rf wine-tools wine-win64 wine-win32 wine-src wine-staging
+mkdir -p wine-tools wine-win64 wine-win32
 
 outdir=wined3d
+
+if [ ! -d wine-src ]; then
+
 git clone --depth=1000 git://source.winehq.org/git/wine.git ./wine-src
 if [[ "${1:-}" == "--staging" ]]; then
 outdir=wined3d-staging
@@ -27,6 +30,8 @@ chmod 775 patches/patchinstall.sh
 cd ..
 fi
 
+fi
+
 ccache -z
 cd wine-tools
 ../wine-src/configure --without-x --enable-win64
@@ -37,7 +42,14 @@ wget -q https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime-compon
 unzip -j vulkan-runtime-components.zip *x64/vulkan-1.dll
 ../wine-src/configure --without-x --enable-win64 --without-freetype --without-vkd3d --host=x86_64-w64-mingw32 --with-wine-tools=../wine-tools/
 make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
-make -j4 -k $(echo dlls/ddraw* dlls/d3d* dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
+#make -j4 -k $(echo dlls/ddraw* dlls/d3d* dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
 ccache -s
-mkdir -p ../$outdir
-cp -v dlls/*/*.dll ../$outdir
+mkdir -p ../$outdir/64
+cp -v dlls/*/*.dll ../$outdir/64/
+
+cd ../wine-win32
+../wine-src/configure --without-x --without-freetype --without-vkd3d --host=i686-w64-mingw32 --with-wine-tools=../wine-tools/ --with-wine64=../wine-win64/
+make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
+make -j4 -k $(echo dlls/ddraw* dlls/d3d* dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
+mkdir -p ../$outdir/32
+cp -v dlls/*/*.dll ../$outdir/32/
