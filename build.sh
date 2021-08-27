@@ -6,7 +6,7 @@ mkdir wine-tools wine-win64
 
 outdir=wined3d
 git clone --depth=1000 git://source.winehq.org/git/wine.git ./wine-src
-if [[ "$1" == "--staging" ]]; then
+if [[ "${1:-}" == "--staging" ]]; then
 outdir=wined3d-staging
 git clone --depth=1 https://github.com/wine-staging/wine-staging.git ./wine-staging
 cd wine-src
