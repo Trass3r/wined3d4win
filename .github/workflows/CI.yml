@@ -12,8 +12,10 @@ jobs:
     - uses: Trass3r/setup-cpp@master
     - name: build
       run: |
+        set -eux
+        chmod +x build sh
         docker build -t wine-build .
-        docker run --rm -v `pwd`:/workspace wine-build
+        docker run --rm -v `pwd`:/workspace wine-build --staging
       continue-on-error: true
     - uses: actions/upload-artifact@v2
       with:
