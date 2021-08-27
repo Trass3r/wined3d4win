@@ -23,7 +23,7 @@ cd wine-tools
 make -j4 __tooldeps__
 cd ../wine-win64
 ../wine-src/configure --without-x --enable-win64 --without-freetype --without-vkd3d --host=x86_64-w64-mingw32 CFLAGS="-O3 -fno-omit-frame-pointer -g -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN" --with-wine-tools=../wine-tools/ LDFLAGS=" -static-libgcc"
-#make -j4 $(echo dlls/ddraw* dlls/d3d* dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
 make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
+make -j4 -k $(echo dlls/ddraw* dlls/d3d* dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
 mkdir -p ../$outdir
 cp -v dlls/*/*.dll ../$outdir
