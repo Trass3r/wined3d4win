@@ -5,19 +5,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - uses: Trass3r/setup-cpp@master
     - name: build
       run: |
-        sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
-        #sudo apt update && sudo apt install -y lxc
-        #sudo lxc-create -t ubuntu -n my32bitbox -- --bindhome $LOGNAME -a i386
-        #sudo cp -R /etc/apt /var/lib/lxc/my32bitbox/rootfs/etc
-        #sudo lxc-start -n my32bitbox
-        sudo bash "64 bit/buildd3d_all.sh"
+        docker build -t wine-build .
+        docker run --rm -v `pwd`:/workspace wine-build
       continue-on-error: true
     - uses: actions/upload-artifact@v2
       with:
