@@ -7,7 +7,7 @@ export CROSSCXX="ccache x86_64-w64-mingw32-g++";
 export CFLAGS="-O3"
 export CXXFLAGS="${CFLAGS}"
 export LDFLAGS="-static-libgcc"
-export CROSSCFLAGS="${CFLAGS} -fno-omit-frame-pointer -g -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN"
+export CROSSCFLAGS="${CFLAGS} -fno-omit-frame-pointer -g -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL"
 export CROSSLDFLAGS="${LDFLAGS} -L`pwd`"
 
 rm -rf wine-tools wine-win64 wine-win32 wine-src wine-staging
@@ -50,6 +50,6 @@ cp -v dlls/*/*.dll ../$outdir/64/
 cd ../wine-win32
 ../wine-src/configure --without-x --without-freetype --without-vkd3d --host=i686-w64-mingw32 --with-wine-tools=../wine-tools/ --with-wine64=../wine-win64/
 make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
-make -j4 -k $(echo dlls/ddraw* dlls/d3d* dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
+#make -j4 -k $(echo dlls/ddraw* dlls/d3d* dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
 mkdir -p ../$outdir/32
 cp -v dlls/*/*.dll ../$outdir/32/
