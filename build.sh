@@ -50,6 +50,6 @@ cp -v dlls/*/*.dll ../$outdir/64/
 cd ../wine-win32
 ../wine-src/configure --without-x --without-freetype --without-vkd3d --without-vulkan --host=i686-w64-mingw32 --with-wine-tools=../wine-tools/ --with-wine64=../wine-win64/
 make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
-#make -j4 -k $(echo dlls/ddraw* dlls/d3d* dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
+make -j4 -k $(echo dlls/gdi32 dlls/ddraw* dlls/d3d* dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
 mkdir -p ../$outdir/32
 cp -v dlls/*/*.dll ../$outdir/32/
