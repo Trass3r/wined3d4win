@@ -23,11 +23,13 @@ jobs:
         docker run --rm -v `pwd`:/workspace wine-build ${{ matrix.mode }}
       continue-on-error: true
     - uses: actions/upload-artifact@v2
+      if: ${{ matrix.mode == '' }} 
       with:
         name: main
         path: wined3d
 
     - uses: actions/upload-artifact@v2
+      if: ${{ matrix.mode == 'staging' }} 
       with:
         name: staging
         path: wined3d-staging
