@@ -7,8 +7,9 @@ set -eux
 export CFLAGS="-O3"
 export CXXFLAGS="${CFLAGS}"
 export LDFLAGS="-static-libgcc"
-export CROSSCFLAGS="${CFLAGS} -fno-omit-frame-pointer -gcodeview -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN"
-export CROSSLDFLAGS="${LDFLAGS} -L`pwd` -gcodeview"
+#export CROSSCFLAGS="${CFLAGS} -fno-omit-frame-pointer -gcodeview -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN"
+#export CROSSLDFLAGS="${LDFLAGS} -L`pwd` -gcodeview"
+export EXTRACROSSCFLAGS="-fno-omit-frame-pointer -gcodeview"
 export CROSSDEBUG=pdb
 
 rm -rf wine-tools wine-win64 wine-win32 wine-src wine-staging
