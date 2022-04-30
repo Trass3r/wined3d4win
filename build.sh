@@ -4,10 +4,10 @@ set -eux
 #export CC="ccache gcc" CXX="ccache g++"
 export CROSSCC="ccache x86_64-w64-mingw32-gcc";
 export CROSSCXX="ccache x86_64-w64-mingw32-g++";
-export CFLAGS="-O3"
+export CFLAGS="-O3 -fno-omit-frame-pointer -gcodeview"
 export CXXFLAGS="${CFLAGS}"
-export LDFLAGS="-static-libgcc"
-export CROSSCFLAGS="${CFLAGS} -fno-omit-frame-pointer -gcodeview -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN"
+export LDFLAGS="-static-libgcc -gcodeview"
+export CROSSCFLAGS="${CFLAGS} -DWINE_NOWINSOCK -DUSE_WIN32_OPENGL -DUSE_WIN32_VULKAN"
 export CROSSLDFLAGS="${LDFLAGS} -L`pwd`"
 
 rm -rf wine-tools wine-win64 wine-win32 wine-src wine-staging
