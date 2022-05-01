@@ -42,7 +42,7 @@ cd ../wine-win64
 apt install -y wget unzip
 wget -q https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime-components.zip
 unzip -j vulkan-runtime-components.zip *x64/vulkan-1.dll
-../wine-src/configure --without-x --enable-win64 --without-freetype --without-vkd3d --host=x86_64-w64-mingw32 --with-wine-tools=../wine-tools/
+../wine-src/configure CROSSDEBUG=pdb --without-x --enable-win64 --without-freetype --without-vkd3d --host=x86_64-w64-mingw32 --with-wine-tools=../wine-tools/
 make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
 make -j4 -k $(echo dlls/gdi32 dlls/ddraw* dlls/d3d* dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
 ccache -s
