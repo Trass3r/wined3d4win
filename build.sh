@@ -17,6 +17,7 @@ outdir=wined3d
 if [ ! -d wine-src ]; then
 
 git clone --depth=1000 git://source.winehq.org/git/wine.git ./wine-src
+sed -i '4321 i         {WINED3DFMT_X8D24_UNORM,                VK_FORMAT_X8_D24_UNORM_PACK32,     },' wine-src/dlls/wined3d/utils.c
 if [[ "${1:-}" == "--staging" ]]; then
 outdir=wined3d-staging
 git clone --depth=1 https://github.com/wine-staging/wine-staging.git ./wine-staging
