@@ -4,7 +4,7 @@ set -eux
 #export CC="ccache gcc" CXX="ccache g++"
 #export CROSSCC="ccache x86_64-w64-mingw32-gcc";
 #export CROSSCXX="ccache x86_64-w64-mingw32-g++";
-export CFLAGS="-O3 -fno-omit-frame-pointer -g"
+export CFLAGS="-Og -fno-omit-frame-pointer -g"
 #export CXXFLAGS="${CFLAGS}"
 export LDFLAGS="-static-libgcc"
 #export CROSSDEBUG=pdb
