@@ -11,6 +11,8 @@ export LDFLAGS="-static-libgcc"
 
 rm -rf wine-tools wine-win64 wine-win32 wine-src wine-staging
 mkdir -p wine-tools wine-win64 wine-win32
+sudo apt install -y clang
+export CC='clang' CXX='clang++'
 
 outdir=wined3d
 
