@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ubuntu-rolling
+    container: ubuntu:rolling
     strategy:
       matrix:
         mode: ["", "--staging"]
