@@ -1,10 +1,8 @@
 #!/bin/bash
 set -eux
 
-#export CC="ccache gcc" CXX="ccache g++"
-#export CROSSCC="ccache x86_64-w64-mingw32-gcc";
-#export CROSSCXX="ccache x86_64-w64-mingw32-g++";
-export CFLAGS="-Og -fno-omit-frame-pointer -g"
+export CC="ccache gcc" CXX="ccache g++"
+CFLAGS="-Og -fno-omit-frame-pointer -g"
 #export CXXFLAGS="${CFLAGS}"
 export LDFLAGS="-static-libgcc"
 #export CROSSDEBUG=pdb
@@ -34,31 +32,33 @@ fi
 
 fi
 
-array=( "" "--host=x86_64-w64-mingw32" )
-for host in "${array[@]}" ; do
-echo "$host"
-
 ccache -z
 cd wine-tools
 #export CC='clang -target x86_64-pc-windows-gnu' CXX='clang++ -target x86_64-pc-windows-gnu'
 ../wine-src/configure --without-x --enable-win64
 make -j4 __tooldeps__
-cd ../wine-win64
+
+#array=( "" "--host=x86_64-w64-mingw32 CC='ccache gcc' CROSSCC='ccache i686-w64-mingw32-gcc'" )
+#for host in "${array[@]}" ; do
+#echo "$host"
+
 apt install -y wget unzip
 wget -q https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime-components.zip
 unzip -j vulkan-runtime-components.zip *x64/vulkan-1.dll
-../wine-src/configure --without-x --disable-kernel32 --disable-tests --without-freetype --without-vkd3d --enable-win64 $host --with-wine-tools=../wine-tools/
-make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
-make -j4 -k $(echo dlls/gdi32 dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
+
+COMMONFLAGS=--with-wine-tools=../wine-tools/ --without-x --disable-kernel32 --disable-tests --without-freetype --without-vkd3d
+cd ../wine-win64
+host="--host=x86_64-w64-mingw32 CC='ccache gcc' CROSSCC='ccache x86_64-w64-mingw32-gcc'"
+../wine-src/configure $host $COMMONFLAGS --enable-win64
+make -j4 -k $(echo dlls/gdi32 dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
 ccache -s
 mkdir -p ../$outdir/64
 cp -v dlls/*/*.dll ../$outdir/64/
 
 cd ../wine-win32
-#export CC='clang -target i686-pc-windows-gnu' CXX='clang++ -target i686-pc-windows-gnu'
-../wine-src/configure --without-x --disable-kernel32 --disable-tests --without-freetype --without-vkd3d $host --with-wine-tools=../wine-tools/ --with-wine64=../wine-win64/
-make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
-make -j4 -k $(echo dlls/gdi32 dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
+host="--host=i686-w64-mingw32 CC='ccache gcc' CROSSCC='ccache i686-w64-mingw32-gcc'"
+../wine-src/configure $host $COMMONFLAGS --with-wine64=../wine-win64/
+make -j4 -k $(echo dlls/gdi32 dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
 mkdir -p ../$outdir/32
 cp -v dlls/*/*.dll ../$outdir/32/
 cp -v dlls/*/*.pdb ../$outdir/32/ || true
