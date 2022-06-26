@@ -19,7 +19,6 @@ sed -i '4321 i         {WINED3DFMT_X8D24_UNORM,                VK_FORMAT_X8_D24_
 sed -i 's/return D3DERR_SURFACENOTINVIDMEM;//g' wine-src/dlls/ddraw/device.c
 
 if [[ "${1:-}" == "--staging" ]]; then
-outdir=wined3d-staging
 git clone --depth=1 https://github.com/wine-staging/wine-staging.git ./wine-staging
 cd wine-src
 git checkout $(../wine-staging/patches/patchinstall.sh --upstream-commit)
