@@ -46,7 +46,7 @@ apt install -y wget unzip
 wget -q https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime-components.zip
 unzip -j vulkan-runtime-components.zip *x64/vulkan-1.dll
 
-COMMONFLAGS=--with-wine-tools=../wine-tools/ --without-x --disable-kernel32 --disable-tests --without-freetype --without-vkd3d
+COMMONFLAGS="--with-wine-tools=../wine-tools/ --without-x --disable-kernel32 --disable-tests --without-freetype --disable-win16"
 cd ../wine-win64
 host="--host=x86_64-w64-mingw32 CC='ccache gcc' CROSSCC='ccache x86_64-w64-mingw32-gcc'"
 ../wine-src/configure $host $COMMONFLAGS --enable-win64
