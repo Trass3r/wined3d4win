@@ -18,7 +18,7 @@ jobs:
         sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
         apt update
         apt-get build-dep wine -y
-        apt install -y clang mingw-w64 git ccache
+        apt install -y sudo clang mingw-w64 git ccache
     - uses: Trass3r/setup-cpp@master
     - uses: hendrikmuhs/ccache-action@v1.2
     - name: build
@@ -32,7 +32,7 @@ jobs:
         name: main
         path: wined3d
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       if: ${{ matrix.mode == '--staging' }} 
       with:
         name: staging
