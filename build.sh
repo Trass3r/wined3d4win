@@ -36,8 +36,7 @@ fi
 
 ccache -z
 cd wine-tools
-export CC='clang -target x86_64-pc-windows-gnu' CXX='clang++ -target x86_64-pc-windows-gnu'
-#export CFLAGS="-Og -fno-omit-frame-pointer -g"
+#export CC='clang -target x86_64-pc-windows-gnu' CXX='clang++ -target x86_64-pc-windows-gnu'
 ../wine-src/configure --without-x --enable-win64
 make -j4 __tooldeps__
 cd ../wine-win64
@@ -52,7 +51,7 @@ mkdir -p ../$outdir/64
 cp -v dlls/*/*.dll ../$outdir/64/
 
 cd ../wine-win32
-export CC='clang -target i686-pc-windows-gnu' CXX='clang++ -target i686-pc-windows-gnu'
+#export CC='clang -target i686-pc-windows-gnu' CXX='clang++ -target i686-pc-windows-gnu'
 ../wine-src/configure --without-x --disable-kernel32 --disable-tests --without-freetype --without-vkd3d --host=i686-w64-mingw32 --with-wine-tools=../wine-tools/ --with-wine64=../wine-win64/
 make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
 make -j4 -k $(echo dlls/gdi32 dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
