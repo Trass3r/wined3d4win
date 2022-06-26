@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     container: ubuntu:rolling
     strategy:
+      fail-fast: false
       matrix:
         mode: ["", "--staging"]
     steps:
