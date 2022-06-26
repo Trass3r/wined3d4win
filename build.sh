@@ -49,7 +49,7 @@ COMMONFLAGS="--with-wine-tools=../wine-tools/ --without-x --disable-kernel32 --d
 cd ../wine-win64
 host=(--host=x86_64-w64-mingw32 CC="ccache gcc" CROSSCC="ccache x86_64-w64-mingw32-gcc")
 ../wine-src/configure "${host[@]}" $COMMONFLAGS --enable-win64
-make -j4 -k $(echo dlls/gdi32 dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
+make -j4 -k $(echo dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
 ccache -s
 mkdir -p ../$outdir/64
 cp -v dlls/*/*.dll ../$outdir/64/
@@ -57,7 +57,7 @@ cp -v dlls/*/*.dll ../$outdir/64/
 cd ../wine-win32
 host=(--host=i686-w64-mingw32 CC="ccache gcc" CROSSCC="ccache i686-w64-mingw32-gcc")
 ../wine-src/configure "${host[@]}" $COMMONFLAGS --with-wine64=../wine-win64/
-make -j4 -k $(echo dlls/gdi32 dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
+make -j4 -k $(echo dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
 mkdir -p ../$outdir/32
 cp -v dlls/*/*.dll ../$outdir/32/
 cp -v dlls/*/*.pdb ../$outdir/32/ || true
