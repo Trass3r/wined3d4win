@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eux
 
-export CC="ccache gcc" CXX="ccache g++"
+#export CC="ccache gcc" CXX="ccache g++"
 CFLAGS="-Og -fno-omit-frame-pointer -g"
 #export CXXFLAGS="${CFLAGS}"
 export LDFLAGS="-static-libgcc"
@@ -47,7 +47,7 @@ unzip -j vulkan-runtime-components.zip *x64/vulkan-1.dll
 
 COMMONFLAGS="--with-wine-tools=../wine-tools/ --without-x --disable-kernel32 --disable-tests --without-freetype --disable-win16"
 cd ../wine-win64
-host=(--host=x86_64-w64-mingw32 CC="ccache gcc" CROSSCC="ccache x86_64-w64-mingw32-gcc")
+host=(--host=x86_64-w64-mingw32) # CC="ccache gcc" CROSSCC="ccache x86_64-w64-mingw32-gcc")
 ../wine-src/configure "${host[@]}" $COMMONFLAGS --enable-win64
 make -j4 -k $(echo dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
 ccache -s
@@ -55,7 +55,7 @@ mkdir -p ../$outdir/64
 cp -v dlls/*/*.dll ../$outdir/64/
 
 cd ../wine-win32
-host=(--host=i686-w64-mingw32 CC="ccache gcc" CROSSCC="ccache i686-w64-mingw32-gcc")
+host=(--host=i686-w64-mingw32) # CC="ccache gcc" CROSSCC="ccache i686-w64-mingw32-gcc")
 ../wine-src/configure "${host[@]}" $COMMONFLAGS --with-wine64=../wine-win64/
 make -j4 -k $(echo dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
 mkdir -p ../$outdir/32
