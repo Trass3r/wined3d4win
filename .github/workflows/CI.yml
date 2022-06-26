@@ -27,7 +27,6 @@ jobs:
         set -eux
         ./build.sh ${{ matrix.mode }}
     - uses: actions/upload-artifact@v3
-      if: ${{ matrix.mode == '' }} 
       with:
         name: wined3d${{ matrix.mode }} 
         path: wined3d
