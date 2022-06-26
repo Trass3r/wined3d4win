@@ -34,6 +34,10 @@ fi
 
 fi
 
+array=( "" "--host=x86_64-w64-mingw32" )
+for host in "${array[@]}" ; do
+echo "$host"
+
 ccache -z
 cd wine-tools
 #export CC='clang -target x86_64-pc-windows-gnu' CXX='clang++ -target x86_64-pc-windows-gnu'
@@ -43,7 +47,7 @@ cd ../wine-win64
 apt install -y wget unzip
 wget -q https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime-components.zip
 unzip -j vulkan-runtime-components.zip *x64/vulkan-1.dll
-../wine-src/configure --without-x --disable-kernel32 --disable-tests --without-freetype --without-vkd3d --enable-win64 --host=x86_64-w64-mingw32 --with-wine-tools=../wine-tools/
+../wine-src/configure --without-x --disable-kernel32 --disable-tests --without-freetype --without-vkd3d --enable-win64 $host --with-wine-tools=../wine-tools/
 make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
 make -j4 -k $(echo dlls/gdi32 dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
 ccache -s
@@ -52,10 +56,11 @@ cp -v dlls/*/*.dll ../$outdir/64/
 
 cd ../wine-win32
 #export CC='clang -target i686-pc-windows-gnu' CXX='clang++ -target i686-pc-windows-gnu'
-../wine-src/configure --without-x --disable-kernel32 --disable-tests --without-freetype --without-vkd3d --host=i686-w64-mingw32 --with-wine-tools=../wine-tools/ --with-wine64=../wine-win64/
+../wine-src/configure --without-x --disable-kernel32 --disable-tests --without-freetype --without-vkd3d $host --with-wine-tools=../wine-tools/ --with-wine64=../wine-win64/
 make -j4 dlls/ddraw/all dlls/ddrawex/all dlls/wined3d/all
 make -j4 -k $(echo dlls/gdi32 dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g') || true
 mkdir -p ../$outdir/32
 cp -v dlls/*/*.dll ../$outdir/32/
 cp -v dlls/*/*.pdb ../$outdir/32/ || true
 
+done
