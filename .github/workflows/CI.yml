@@ -25,15 +25,8 @@ jobs:
       run: |
         set -eux
         ./build.sh ${{ matrix.mode }}
-      continue-on-error: true
     - uses: actions/upload-artifact@v3
       if: ${{ matrix.mode == '' }} 
       with:
-        name: main
+        name: wined3d${{ matrix.mode }} 
         path: wined3d
-
-    - uses: actions/upload-artifact@v3
-      if: ${{ matrix.mode == '--staging' }} 
-      with:
-        name: staging
-        path: wined3d-staging
