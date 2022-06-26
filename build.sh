@@ -62,4 +62,4 @@ mkdir -p ../$outdir/32
 cp -v dlls/*/*.dll ../$outdir/32/
 cp -v dlls/*/*.pdb ../$outdir/32/ || true
 
-done
+#done
