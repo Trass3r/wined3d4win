@@ -6,7 +6,7 @@ CFLAGS="-Og -fno-omit-frame-pointer -g"
 export LDFLAGS="-static-libgcc"
 
 #export PATH=$(pwd)/llvm-mingw-20220323-ucrt-ubuntu-18.04-x86_64/bin/:$PATH
-export CROSSCFLAGS="-Oz -fno-omit-frame-pointer -g"
+export EXTRACROSSCFLAGS="-Oz -fno-omit-frame-pointer -g -gcodeview"
 export CROSSDEBUG=pdb
 
 rm -rf wine-tools wine-win64 wine-win32 wine-src wine-staging
