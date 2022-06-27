@@ -13,13 +13,17 @@ jobs:
         mode: ["", "--staging"]
     steps:
     - uses: actions/checkout@v2
-    - run: |
+    - name: prereqs
+      run: |
         set -eux
         export DEBIAN_FRONTEND=noninteractive
         sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+        dpkg --add-architecture i386
         apt update
         apt-get build-dep wine -y
-        apt install -y sudo clang mingw-w64 git ccache
+        apt install -y sudo clang mingw-w64 git ccache gcc-multilib libvulkan-dev:i386
+        wget https://github.com/mstorsjo/llvm-mingw/releases/download/20220323/llvm-mingw-20220323-ucrt-ubuntu-18.04-x86_64.tar.xz
+        cd /usr/local/ && tar --strip-components=1 xvf llvm-mingw-20220323-ucrt-ubuntu-18.04-x86_64.tar.xz
     - uses: Trass3r/setup-cpp@master
     - uses: hendrikmuhs/ccache-action@v1.2
     - name: build
