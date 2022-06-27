@@ -23,7 +23,7 @@ jobs:
         apt-get build-dep wine -y
         apt install -y sudo wget clang mingw-w64 git ccache gcc-multilib libvulkan-dev:i386
         cd /tmp && wget https://github.com/mstorsjo/llvm-mingw/releases/download/20220323/llvm-mingw-20220323-ucrt-ubuntu-18.04-x86_64.tar.xz
-        cd /usr/local/ && tar xvf /tmp/llvm-mingw-*.tar.xz --strip-components=1 && rm llvm-mingw-*.tar.xz
+        cd /usr/local/ && tar xvf /tmp/llvm-mingw-*.tar.xz --strip-components=1 && rm /tmp/llvm-mingw-*.tar.xz
     - uses: Trass3r/setup-cpp@master
     - uses: hendrikmuhs/ccache-action@v1.2
     - name: build
