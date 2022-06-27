@@ -45,9 +45,9 @@ make -j4 __tooldeps__
 #for host in "${array[@]}" ; do
 #echo "$host"
 
-#apt install -y wget unzip
-#wget -q https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime-components.zip
-#unzip -j vulkan-runtime-components.zip *x64/vulkan-1.dll
+sudo apt install -y wget unzip
+wget -q https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime-components.zip
+unzip -j vulkan-runtime-components.zip *x64/vulkan-1.dll
 
 COMMONFLAGS="--with-wine-tools=../wine-tools/ --with-vulkan --without-x --disable-kernel32 --disable-tests --without-freetype --disable-win16"
 cd ../wine-win64
