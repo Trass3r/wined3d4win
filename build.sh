@@ -58,7 +58,7 @@ fi
 make -j4 -k $(echo dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
 ccache -s
 mkdir -p ../$outdir/64
-cp -v dlls/*/*.{dll,pdb} ../$outdir/64/
+cp -v dlls/*/*/*.{dll,pdb} ../$outdir/64/
 
 cd ../wine-win32
 host=() #--host=i686-w64-mingw32) # CC="ccache gcc" CROSSCC="ccache i686-w64-mingw32-gcc")
@@ -67,6 +67,6 @@ if [ ../wine-src/configure -nt Makefile ] ; then
 fi
 make -j4 -k $(echo dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
 mkdir -p ../$outdir/32
-cp -v dlls/*/*.{dll,pdb} ../$outdir/32/
+cp -v dlls/*/*/*.{dll,pdb} ../$outdir/32/
 
 #done
