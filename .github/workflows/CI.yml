@@ -19,7 +19,7 @@ jobs:
         set -eux
         export DEBIAN_FRONTEND=noninteractive
         sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
-        dpkg --add-architecture i386
+        #dpkg --add-architecture i386
         apt update
         apt-get build-dep wine -y
         apt install -y sudo wget clang mingw-w64 git ccache gcc-multilib libvulkan-dev:i386
