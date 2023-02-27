@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eux
+shopt -s globstar
 
 #export CC="ccache gcc" CXX="ccache g++"
 CFLAGS="-Og -fno-omit-frame-pointer -g"
