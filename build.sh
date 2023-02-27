@@ -33,6 +33,13 @@ fi
 
 fi
 
+mkdir -p wine/build
+cd wine/build
+../configure --enable-win64 --disable-tests --with-mingw --enable-archs=i386,x86_64
+ls -l **
+cp -v **/*.{dll,pdb} ../$outdir/
+exit 0
+
 ccache -z
 cd wine-tools
 #export CC='clang -target x86_64-pc-windows-gnu' CXX='clang++ -target x86_64-pc-windows-gnu'
