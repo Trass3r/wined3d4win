@@ -6,6 +6,7 @@ shopt -s globstar
 CFLAGS="-Og -fno-omit-frame-pointer -g"
 export LDFLAGS="-static-libgcc"
 
+export PATH="/usr/lib/ccache/bin/:$PATH"
 export CROSSCFLAGS="-Oz -flto -fno-omit-frame-pointer"
 export CROSSDEBUG=pdb
 
