@@ -33,8 +33,7 @@ fi
 
 fi
 
-mkdir -p wine/build
-cd wine/build
+mkdir -p build && cd build
 ../configure --enable-win64 --disable-tests --with-mingw --enable-archs=i386,x86_64
 ls -l **
 cp -v **/*.{dll,pdb} ../$outdir/
