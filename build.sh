@@ -37,6 +37,7 @@ mkdir -p build && cd build
 ../wine-src/configure --enable-win64 --disable-tests --with-mingw --enable-archs=i386,x86_64
 make -j4 -k $(echo dlls/ddraw* dlls/d3d? dlls/dxgi dlls/wined3d/all | sed 's# #/all #g')
 ccache -svx
+mkdir -p ../$outdir
 cp -v **/*.{dll,pdb} ../$outdir/
 exit 0
 
