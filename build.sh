@@ -24,10 +24,9 @@ sed -i '4321 i         {WINED3DFMT_X8D24_UNORM,                VK_FORMAT_X8_D24_
 if [[ "${1:-}" == "--staging" ]]; then
 git clone --depth=1 https://github.com/wine-staging/wine-staging.git ./wine-staging
 cd wine-src
-git checkout $(../wine-staging/patches/patchinstall.sh --upstream-commit)
+git checkout $(../wine-staging/staging/patchinstall.py --upstream-commit)
 cd ..
 cd wine-staging
-chmod 775 staging/patchinstall.py
 ./staging/patchinstall.py DESTDIR="../wine-src/" --all
 cd ..
 fi
