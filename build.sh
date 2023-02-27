@@ -26,8 +26,8 @@ cd wine-src
 git checkout $(../wine-staging/patches/patchinstall.sh --upstream-commit)
 cd ..
 cd wine-staging
-chmod 775 patches/patchinstall.sh
-./patches/patchinstall.sh DESTDIR="../wine-src/" --all
+chmod 775 staging/patchinstall.py
+./staging/patchinstall.py DESTDIR="../wine-src/" --all
 cd ..
 fi
 
