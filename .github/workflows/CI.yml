@@ -26,7 +26,9 @@ jobs:
         cd /tmp && wget https://github.com/mstorsjo/llvm-mingw/releases/download/20230730/llvm-mingw-20230730-ucrt-ubuntu-20.04-x86_64.tar.xz
         cd /usr/local/ && tar xvf /tmp/llvm-mingw-*.tar.xz --strip-components=1 && rm /tmp/llvm-mingw-*.tar.xz
     - uses: Trass3r/setup-cpp@master
-    - uses: hendrikmuhs/ccache-action@v1.2
+    - uses: hendrikmuhs/ccache-action@v1
+      with:
+        verbose: 2
     - name: build
       run: |
         set -eux
