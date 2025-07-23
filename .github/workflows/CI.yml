@@ -18,6 +18,7 @@ jobs:
       run: |
         set -eux
         export DEBIAN_FRONTEND=noninteractive
+        sudo sed -Ei 's/^(Types:.*)(deb-src)?/\1 deb-src/' /etc/apt/sources.list.d/ubuntu.sources
         sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
         #dpkg --add-architecture i386
         apt update
