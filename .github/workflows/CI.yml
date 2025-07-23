@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ubuntu:rolling
+    #container: ubuntu:rolling
     strategy:
       fail-fast: false
       matrix:
@@ -16,15 +16,15 @@ jobs:
     - uses: actions/checkout@v4
     - name: prereqs
       run: |
+        #apt update && apt install -y sudo
         set -eux
         export DEBIAN_FRONTEND=noninteractive
-        sed -Ei 's/^(Types:.*)(deb-src)?/\1 deb-src/' /etc/apt/sources.list.d/ubuntu.sources
+        sudo sed -Ei 's/^(Types:.*)(deb-src)?/\1 deb-src/' /etc/apt/sources.list.d/ubuntu.sources
         #dpkg --add-architecture i386
-        apt update
-        apt-get build-dep wine -y
-        apt install -y sudo wget clang mingw-w64 git ccache # gcc-multilib libvulkan-dev:i386
+        sudo apt update && sudo apt-get build-dep wine -y
+        sudo apt install -y sudo wget clang mingw-w64 git ccache # gcc-multilib libvulkan-dev:i386
         cd /tmp && wget -nv https://github.com/mstorsjo/llvm-mingw/releases/download/20250717/llvm-mingw-20250717-ucrt-ubuntu-22.04-x86_64.tar.xz
-        cd /usr/local/ && tar xvf /tmp/llvm-mingw-*.tar.xz --strip-components=1 && rm /tmp/llvm-mingw-*.tar.xz
+        cd /usr/local/ && sudo tar xvf /tmp/llvm-mingw-*.tar.xz --strip-components=1 && rm /tmp/llvm-mingw-*.tar.xz
     - uses: Trass3r/setup-cpp@master
     - uses: hendrikmuhs/ccache-action@v1
       with:
