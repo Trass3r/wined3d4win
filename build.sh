@@ -7,7 +7,7 @@ CFLAGS="-Og -fno-omit-frame-pointer -g"
 export LDFLAGS="-static-libgcc"
 
 export PATH="/usr/lib/ccache/:$PATH"
-export CROSSCFLAGS="-Oz -flto -fno-omit-frame-pointer"
+export CROSSCFLAGS="-Oz -fno-omit-frame-pointer"
 export CROSSDEBUG=pdb
 
 rm -rf wine-tools wine-win64 wine-win32 wine-src wine-staging
