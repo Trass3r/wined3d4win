@@ -17,8 +17,8 @@ outdir=wined3d
 
 if [ ! -d wine-src ]; then
 
-git clone --depth=1000 git://source.winehq.org/git/wine.git ./wine-src
-sed -i '4321 i         {WINED3DFMT_X8D24_UNORM,                VK_FORMAT_X8_D24_UNORM_PACK32,     },' wine-src/dlls/wined3d/utils.c
+git clone --depth=1000 https://github.com/wine-mirror/wine.git ./wine-src
+sed -i '4330 i         {WINED3DFMT_X8D24_UNORM,                VK_FORMAT_X8_D24_UNORM_PACK32,     },' wine-src/dlls/wined3d/utils.c
 #sed -i 's/return D3DERR_SURFACENOTINVIDMEM;//g' wine-src/dlls/ddraw/device.c
 
 if [[ "${1:-}" == "--staging" ]]; then
