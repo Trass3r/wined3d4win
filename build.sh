@@ -19,7 +19,7 @@ if [ ! -d wine-src ]; then
 
 git clone --depth=1000 https://github.com/wine-mirror/wine.git ./wine-src
 sed -i '4330 i         {WINED3DFMT_X8D24_UNORM,                VK_FORMAT_X8_D24_UNORM_PACK32,     },' wine-src/dlls/wined3d/utils.c
-sed -i 's/ctx_attribs\[7\], ctx_flags = 0;/ctx_attribs[8], ctx_flags = 0;\n ctx_attribs[ctx_attrib_idx++] = WGL_CONTEXT_PROFILE_MASK_ARB;\n ctx_attribs[ctx_attrib_idx++] = WGL_CONTEXT_CORE_PROFILE_BIT_ARB;/' wine-src/dlls/wined3d/context_gl.c
+sed -i 's/ctx_attribs\[7\], ctx_flags = 0;/ctx_attribs[9], ctx_flags = 0;\n ctx_attribs[ctx_attrib_idx++] = WGL_CONTEXT_PROFILE_MASK_ARB;\n ctx_attribs[ctx_attrib_idx++] = WGL_CONTEXT_CORE_PROFILE_BIT_ARB;/' wine-src/dlls/wined3d/context_gl.c
 #sed -i 's/return D3DERR_SURFACENOTINVIDMEM;//g' wine-src/dlls/ddraw/device.c
 
 if [[ "${1:-}" == "--staging" ]]; then
