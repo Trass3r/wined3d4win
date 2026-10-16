@@ -13,7 +13,7 @@ jobs:
       matrix:
         mode: ["", "--staging"]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: prereqs
       run: |
         #apt update && apt install -y sudo
@@ -23,17 +23,17 @@ jobs:
         #dpkg --add-architecture i386
         sudo apt update && sudo apt-get build-dep wine -y
         sudo apt install -y sudo wget clang mingw-w64 git ccache # gcc-multilib libvulkan-dev:i386
-        cd /tmp && wget -nv https://github.com/mstorsjo/llvm-mingw/releases/download/20250717/llvm-mingw-20250717-ucrt-ubuntu-22.04-x86_64.tar.xz
+        cd /tmp && wget -nv https://github.com/mstorsjo/llvm-mingw/releases/download/20261006/llvm-mingw-20261006-ucrt-ubuntu-22.04-x86_64.tar.xz
         cd /usr/local/ && sudo tar xvf /tmp/llvm-mingw-*.tar.xz --strip-components=1 && rm /tmp/llvm-mingw-*.tar.xz
     - uses: Trass3r/setup-cpp@master
-    - uses: hendrikmuhs/ccache-action@v1
+    - uses: hendrikmuhs/ccache-action@main
       with:
         verbose: 2
     - name: build
       run: |
         set -eux
         ./build.sh ${{ matrix.mode }}
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: wined3d${{ matrix.mode }} 
         path: wined3d
